@@ -24,8 +24,6 @@ public class SteamLobby : MonoBehaviour
     public GameObject hostButton;
     public TMP_Text LobbyNameText;
 
-    private TransportManager transportManger;
-
     private void Start()
     {
         if (!SteamManager.Initialized) { return; }
@@ -73,7 +71,8 @@ public class SteamLobby : MonoBehaviour
         // Client
         if (InstanceFinder.IsServer) { return; }
 
-        transportManger.Transport.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey));
-        InstanceFinder.ClientManager.StartConnection();
+        string address = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAddressKey);
+
+        InstanceFinder.ClientManager.StartConnection(address);
     }
 }
